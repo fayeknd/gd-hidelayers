@@ -8,7 +8,7 @@
 	},
 	"id": "fayeknd.hidelayers",
 	"name": "hidelayers",
-	"version": "v1.0.2",
+	"version": "v1.0.3",
 	"developer": "fayeknd",
 	"description": "a simple mod that aims to hide the semi-transparent objects that are on a different editor layer not selected. at request of the legendary boab host.",
 	"dependencies": {
