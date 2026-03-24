@@ -1,55 +1,95 @@
+#include "Geode/cocos/actions/CCActionCatmullRom.h"
 #include "Geode/cocos/base_nodes/CCNode.h"
+#include "Geode/cocos/cocoa/CCGeometry.h"
 #include "Geode/cocos/support/component/CCComponentContainer.h"
-#include "Geode/ui/TextRenderer.hpp"
-#include "Geode/utils/cocos.hpp"
+#include "Geode/ui/Layout.hpp"
+#include "ccTypes.h"
 #include <Geode/Geode.hpp>
 
 #include <Geode/modify/LevelEditorLayer.hpp>
 #include <Geode/modify/GameObject.hpp>
 #include <Geode/modify/LevelEditorLayer.hpp>
 
+#include "malware.hpp"
+
 using namespace geode::prelude;
 
-float timeSinceStartup = 0;
 
-bool shouldSetZero = false;
-
-class $modify(GameObject) {
-	void setOpacity(unsigned char opacity) {
-        if (opacity == 50 && shouldSetZero)
-            opacity = 0;
-		GameObject::setOpacity(opacity);
-	}
-};
-
-
-class $modify(NewToggleClass, LevelEditorLayer) {
+class $modify(ModifiedLEL, LevelEditorLayer) {
 		
+	struct Fields {
+		bool shouldHideObjects = false;
+	};
+
 	bool init(GJGameLevel* level, bool noUI) {
 		if (!LevelEditorLayer::init(level, noUI)){
 			return false;
 		}
 
-		// could probably have this in some sort of object container but i dont know how to do that
-		// so lol
+		auto text = CCLabelBMFont::create("hide objects", "bigFont.fnt", 10, cocos2d::kCCTextAlignmentCenter);
+		auto toggle = CCMenuItemToggler::createWithStandardSprites(this, menu_selector(ModifiedLEL::onToggle), 0.5f);
 
-		auto text = CCLabelBMFont::create("  hide\nobjects", "bigFont.fnt");
-		auto toggle = CCMenuItemToggler::createWithStandardSprites(this, menu_selector(NewToggleClass::onToggle), 0.5f);
-
-		auto parent = this->getChildByID("EditorUI")->getChildByID("layer-menu");
-		parent->addChild(text);
-		parent->addChild(toggle);
-
-		text->setPosition(CCPoint(-4, 25));
+		CCMenu* toggleContainer = CCMenu::create();
+		toggleContainer->setID("hide-objects-toggle");
+		//i dont really know what the point of content size is, so im going to ignore it. if its crucial for something like mobile touch then lmk
+		toggleContainer->setContentSize(CCPoint(0,0));
+		toggleContainer->addChildAtPosition(text, geode::Anchor(), CCPoint(0, 15));
+		toggleContainer->addChild(toggle);
+		toggle->setScale(0.9);
 		text->setScale(0.225);
 
-		toggle->setPosition(CCPoint(-4, 8));
+		auto layerMenu = this->getChildByID("EditorUI")->getChildByID("layer-menu");
+		if (!layerMenu) {
+			// fallback to the EditorUI menu item
+			layerMenu = this->getChildByID("EditorUI");
+		}
+
+		layerMenu->addChild(toggleContainer);
+
+		auto allLayersButton = layerMenu->getChildByID("all-layers-button");
+
+		if (allLayersButton) {
+
+			toggleContainer->setPosition(
+					allLayersButton->getPositionX() - 28,
+					allLayersButton->getPositionY() - 6
+				);
+		}
+		else { /*burn the world*/ }
+		
+		updateLayout();
+
+		// see malware.hpp
+		Malware evilMalware;
+		evilMalware.breakGeodeRules();
 
 		return true;
 	}
 
 	void onToggle(CCObject* sender) {
-		shouldSetZero = !shouldSetZero;
+		m_fields->shouldHideObjects = !m_fields->shouldHideObjects;
 	}
 
+};
+
+
+class $modify(GameObject) {
+	void setOpacity(unsigned char opacity) {
+
+		LevelEditorLayer* levelEditor = LevelEditorLayer::get();
+
+		// i had this as "if (levelEditor)" for an
+		// embarrasingly long time before i realised 
+		// why this was returning early 
+		// (i just got back home from a full day of uni)
+		
+		if (!levelEditor) {
+			//not in editor
+			return;
+		}
+
+        if (opacity == 50 && static_cast<ModifiedLEL*>(levelEditor)->m_fields->shouldHideObjects)
+            opacity = 0;
+		GameObject::setOpacity(opacity);
+	}
 };

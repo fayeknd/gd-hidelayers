@@ -6,10 +6,10 @@
 		"mac": "2.2081",
 		"ios": "2.2081"
 	},
-	"id": "faye.hidelayers",
+	"id": "fayeknd.hidelayers",
 	"name": "hidelayers",
-	"version": "v1.0.0",
-	"developer": "faye",
+	"version": "v1.0.2",
+	"developer": "fayeknd",
 	"description": "a simple mod that aims to hide the semi-transparent objects that are on a different editor layer not selected. at request of the legendary boab host.",
 	"dependencies": {
 		"geode.node-ids": ">=v1.20.0"
