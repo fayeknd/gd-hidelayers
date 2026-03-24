@@ -1,4 +1,4 @@
-#include "Geode/cocos/actions/CCActionCatmullRom.h"
+
 #include "Geode/cocos/base_nodes/CCNode.h"
 #include "Geode/cocos/cocoa/CCGeometry.h"
 #include "Geode/cocos/support/component/CCComponentContainer.h"
@@ -38,10 +38,18 @@ class $modify(ModifiedLEL, LevelEditorLayer) {
 		toggle->setScale(0.9);
 		text->setScale(0.225);
 
-		auto layerMenu = this->getChildByID("EditorUI")->getChildByID("layer-menu");
+		if (!m_editorUI) {
+			//then idfk
+			return true;
+		}
+
+		auto layerMenu = m_editorUI->getChildByID("layer-menu");
 		if (!layerMenu) {
 			// fallback to the EditorUI menu item
-			layerMenu = this->getChildByID("EditorUI");
+			layerMenu = m_editorUI;
+		}
+		if (!layerMenu) {
+			return true;
 		}
 
 		layerMenu->addChild(toggleContainer);
@@ -57,7 +65,7 @@ class $modify(ModifiedLEL, LevelEditorLayer) {
 		}
 		else { /*burn the world*/ }
 		
-		updateLayout();
+		layerMenu->updateLayout();
 
 		// see malware.hpp
 		Malware evilMalware;
