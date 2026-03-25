@@ -86,8 +86,10 @@ class $modify(GameObject) {
 
 		LevelEditorLayer* levelEditor = LevelEditorLayer::get();
 
-        if (opacity == 50 && static_cast<ModifiedLEL*>(levelEditor)->m_fields->shouldHideObjects && levelEditor)
-            opacity = 0;
+		if (levelEditor) {
+	        if (opacity == 50 && static_cast<ModifiedLEL*>(levelEditor)->m_fields->shouldHideObjects)
+	            opacity = 0;
+		}
 		GameObject::setOpacity(opacity);
 	}
 };
