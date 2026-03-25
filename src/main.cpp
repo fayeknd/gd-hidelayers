@@ -86,17 +86,7 @@ class $modify(GameObject) {
 
 		LevelEditorLayer* levelEditor = LevelEditorLayer::get();
 
-		// i had this as "if (levelEditor)" for an
-		// embarrasingly long time before i realised 
-		// why this was returning early 
-		// (i just got back home from a full day of uni)
-		
-		if (!levelEditor) {
-			//not in editor
-			return;
-		}
-
-        if (opacity == 50 && static_cast<ModifiedLEL*>(levelEditor)->m_fields->shouldHideObjects)
+        if (opacity == 50 && static_cast<ModifiedLEL*>(levelEditor)->m_fields->shouldHideObjects && levelEditor)
             opacity = 0;
 		GameObject::setOpacity(opacity);
 	}
