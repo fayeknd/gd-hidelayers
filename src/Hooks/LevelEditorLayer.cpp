@@ -1,6 +1,5 @@
 #include "LevelEditorLayer.hpp"
 #include "EditorUI.hpp"
-#include <regex>
 
 // https://gd-src.undefined0.dev/libcocos2dcpp-32.so/LevelEditorLayer__updateVisibility#$pseudocode=163,19,163,19
 
