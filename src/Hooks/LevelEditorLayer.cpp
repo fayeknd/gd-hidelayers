@@ -12,15 +12,9 @@ void LevelEditorLayerHook::updateVisibility(float dt) {
 
     for (size_t i = 0; i < m_activeObjectsCount; i++) {
         GameObject* obj = m_activeObjects[i];
-        int layer = getLayerFromUILabel();
+        int layer = m_currentLayer;
         if (!((isPlaying || validGroup(obj, 0)) || (obj->m_editorLayer == layer || layer == -1))) {
             obj->setOpacity(0);
         }
         //geode::log::info("Object alpha: {}, isPlaying state: {}, layer: {}", obj->getOpacity(), isPlaying, layer);
     }
-}
-
-int LevelEditorLayerHook::getLayerFromUILabel() {
-    const char* layer_s = m_editorUI->m_currentLayerLabel->getString();
-    return (std::regex_match(layer_s, std::regex(("((\\+|-)?[[:digit:]]+)(\\.(([[:digit:]]+)?))?")))) ? std::stoi(layer_s) : -1;
-}
