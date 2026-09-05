@@ -18,3 +18,4 @@ void LevelEditorLayerHook::updateVisibility(float dt) {
         }
         //geode::log::info("Object alpha: {}, isPlaying state: {}, layer: {}", obj->getOpacity(), isPlaying, layer);
     }
+}
