@@ -3,5 +3,4 @@
 
 class $modify(LevelEditorLayerHook, LevelEditorLayer) {
     void updateVisibility(float dt);
-    int getLayerFromUILabel();
 };
