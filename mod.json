@@ -8,7 +8,7 @@
 	},
 	"id": "fayeknd.hidelayers",
 	"name": "hidelayers",
-	"version": "v1.1.0",
+	"version": "v1.1.1",
 	"developer": "fayeknd",
 	"description": "Adds a toggle to the editor that completely hides any objects on other layers.",
 	"dependencies": {
