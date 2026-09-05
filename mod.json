@@ -1,0 +1,31 @@
+{
+	"geode": "5.10.1",
+	"gd": {
+		"win": "2.2081",
+		"android": "2.2081",
+		"mac": "2.2081",
+		"ios": "2.2081"
+	},
+	"id": "fayeknd.hidelayers",
+	"name": "hidelayers",
+	"version": "v1.1.1",
+	"developer": "fayeknd",
+	"description": "Adds a toggle to the editor that completely hides any objects on other layers.",
+	"dependencies": {
+		"geode.node-ids": ">=v1.20.0"
+	},
+	"tags": ["editor", "interface"],
+	"resources": {
+		"sprites" : [
+			"resources/*.png"
+		]
+	},
+	"settings": {
+		"hide-layers": {
+			"type" : "bool",
+			"name" : "Hide objects in other layers", 
+			"description": "Should hide objects in other layers in the editor completely?",
+			"default" : false
+		}
+	}
+}
